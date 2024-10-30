@@ -200,7 +200,7 @@ public class CuadradoAsteriscos {
 						System.out.println();
 					}
 				}				
-			}		
+			}
 			break;
 		}
 
