@@ -45,8 +45,7 @@ public class Arrays02 {
 		for (int i = 1; i < array1.length; i++) {			
 			if (array1[i] > array1[maximo]) {
                 maximo = i;
-            }
-            if (array1[i] < array1[minimo]) {
+            } else if (array1[i] < array1[minimo]) {
                 minimo = i;
             }
 		}
