@@ -7,10 +7,13 @@ public class Practica2 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 
-		int intentos = 50;
+		
+		String otra = "";
 		char tablero_relleno[][] = new char[10][10];
 		char tablero_jugador[][] = new char[10][10];
 
+		int intentos = nivel();
+		
 		crear_tablero(tablero_jugador);
 		crear_tablero(tablero_relleno);
 
@@ -19,7 +22,8 @@ public class Practica2 {
 		insertar_barco(tablero_relleno, 'Z', 4, 1);
 		insertar_barco(tablero_relleno, 'P', 5, 1);
 
-		jugar(tablero_relleno, tablero_jugador, intentos);
+		
+		jugar(tablero_relleno, tablero_jugador, intentos, otra);
 
 		sc.close();
 	}
@@ -61,12 +65,12 @@ public class Practica2 {
 			es_horizontal = Math.random() < 0.5;
 
 			if (esPosicionValida(tablero, fila, columna, tamano, es_horizontal)) {
-				
+
 				for (int i = 0; i < tamano; i++) {
-					
+
 					if (es_horizontal) {
 						tablero[fila][columna + i] = tipo;
-						
+
 					} else {
 						tablero[fila + i][columna] = tipo;
 					}
@@ -77,11 +81,11 @@ public class Practica2 {
 	}
 
 	public static boolean esPosicionValida(char[][] tablero, int fila, int columna, int tamano, boolean es_horizontal) {
-		
+
 		if (es_horizontal) {
 			if (columna + tamano > tablero[0].length) {
 				return false;
-				
+
 			}
 			for (int i = 0; i < tamano; i++) {
 				if (tablero[fila][columna + i] != '-') {
@@ -92,7 +96,7 @@ public class Practica2 {
 			if (fila + tamano > tablero.length) {
 				return false;
 			}
-			
+
 			for (int i = 0; i < tamano; i++) {
 				if (tablero[fila + i][columna] != '-') {
 					return false;
@@ -102,7 +106,7 @@ public class Practica2 {
 		return true;
 	}
 
-	public static void jugar(char[][] tablero_relleno, char[][] tablero_jugador, int intentos) {
+	public static void jugar(char[][] tablero_relleno, char[][] tablero_jugador, int intentos, String otra) {
 		Scanner sc = new Scanner(System.in);
 
 		String filas = "ABCDEFGHIJ", filaChar;
@@ -147,13 +151,22 @@ public class Practica2 {
 			intentos--;
 			System.out.println("Te quedan: " + intentos + " intentos");
 		}
-		
-		if(intentos == 0 && contar_barcos(tablero_relleno) > 0) {
-			System.out.println("Has perdido :( te has quedado sin intentos y no has hundido toda la flota, te han quedado estos barcos:");
+
+		if (intentos == 0 && contar_barcos(tablero_relleno) > 0) {
+			System.out.println(
+					"Has perdido :( te has quedado sin intentos y no has hundido toda la flota, te han quedado estos barcos:");
 			mostrar_tablero(tablero_relleno);
-			
+
 		} else {
 			System.out.println("Has ganado!!! te quedaban: " + intentos + " intentos, enhorabuena!");
+		}
+
+		System.out.println("Quieres jugar de nuevo? si o no");
+		otra = sc.nextLine();
+
+		while (!otra.equalsIgnoreCase("si") && !otra.equalsIgnoreCase("no")) {
+			System.out.println("\n no lo has introducido bien, quieres volver a jugar? si o no");
+			otra = sc.nextLine();
 		}
 
 		sc.close();
@@ -169,5 +182,28 @@ public class Practica2 {
 			}
 		}
 		return barcos;
+	}
+
+	public static int nivel() {
+		Scanner sc = new Scanner(System.in);
+		int nivel, intentos = 0;
+
+		System.out.println("\nElige nivel: \n1 (facil 50 intentos) \n2 (medio 40 intentos) \n3 (dificil 30 intentos)");
+		nivel = Integer.parseInt(sc.nextLine());
+
+		while (nivel < 1 || nivel > 3) {
+			System.out.println("\nNivel no válido, elige de nuevo: \n1 (facil) \n2 (medio) \n3 (dificil)");
+			nivel = Integer.parseInt(sc.nextLine());
+		}
+
+		if (nivel == 1) {
+			intentos = 50;
+		} else if (nivel == 2) {
+			intentos = 40;
+		} else {
+			intentos = 30;
+		}
+
+		return intentos;
 	}
 }
