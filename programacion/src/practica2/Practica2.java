@@ -203,7 +203,8 @@ public class Practica2 {
 		} else {
 			intentos = 30;
 		}
-
+		
+		sc.close();
 		return intentos;
 	}
 }
